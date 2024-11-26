@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Form,
   FormField,
@@ -48,7 +47,7 @@ function Login() {
             Login User
           </h1>
           <p>
-            If you don't register an account{" "}
+            Dont't have an account{" "}
             <Link
               to={"/auth/register"}
               className="font-medium text-primary hover:underline ml-1"
