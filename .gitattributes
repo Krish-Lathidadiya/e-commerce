@@ -1,0 +1,6 @@
+# Ensure text files use LF
+* text eol=lf
+
+# Windows-specific scripts
+*.bat text eol=crlf
+*.cmd text eol=crlf
