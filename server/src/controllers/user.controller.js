@@ -1,7 +1,8 @@
 const { ApiError } = require("../utils/ApiError");
 const { ApiResponse } = require("../utils/ApiResponse");
 const User = require("../models/user.model");
-
+const jwt = require("jsonwebtoken");
+const {isTokenExpired}=require('../utils/checkTokenExp');
 exports.register = async (req, res, next) => {
   try {
     // if user exists
@@ -58,6 +59,32 @@ exports.login = async (req, res, next) => {
         maxAge: 24 * 60 * 60 * 1000, // 1 day
       })
       .json(new ApiResponse(200, user, "User logged in successfully"));
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.logout = async (req, res, next) => {
+  try {
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, {}, "User Logout successfully"));
+  } catch (error) {
+    next(error);
+  }
+};
+
+// get login user
+exports.checkAuth = async (req, res, next) => {
+  try {
+    const user=req.user;
+    return res.status(200).json(new ApiResponse(200,user,"Authenticated User"))
   } catch (error) {
     next(error);
   }
